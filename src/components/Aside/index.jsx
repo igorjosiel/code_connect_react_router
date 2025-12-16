@@ -43,13 +43,7 @@ export const Aside = () => {
             </AsideLink>
           </li>
           <li>
-            <AsideLink href="/auth/login">
-              <IconLogin />
-              Login
-            </AsideLink>
-          </li>
-          <li>
-            <AsideLink href="/auth/login">
+            <AsideLink href="/auth/logout">
               <IconLogin />
               Logout
             </AsideLink>
