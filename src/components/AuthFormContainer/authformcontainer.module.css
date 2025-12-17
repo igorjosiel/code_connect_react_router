@@ -1,16 +1,16 @@
 .container {
-    display: flex;
-    gap: 55px;  
-    flex-wrap: wrap;
+  display: flex;
+  gap: 55px;
+  flex-wrap: wrap;
 }
 
 .container figure {
-    margin: 0;
+  margin: 0;
 }
 
 .form-wrapper {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
