@@ -1,10 +1,9 @@
 import { Link } from "react-router";
 import { Author } from "../Author";
-import styles from "./cardpost.module.css";
-
 import { ThumbsUpButton } from "./ThumbsUpButton";
 import { IconChat } from "../icons/IconChat";
 import { IconButton } from "../IconButton";
+import styles from "./cardpost.module.css";
 
 export const CardPost = ({ post }) => {
   return (
@@ -18,6 +17,7 @@ export const CardPost = ({ post }) => {
       <section className={styles.body}>
         <h2>{post.title}</h2>
         <p>{post.body}</p>
+
         <Link to={`/blog-post/${post.slug}`}>Ver detalhes</Link>
       </section>
 
@@ -25,6 +25,7 @@ export const CardPost = ({ post }) => {
         <div className={styles.actions}>
           <div className={styles.action}>
             <ThumbsUpButton loading={false} />
+
             <p>{post.likes}</p>
           </div>
 
@@ -32,6 +33,7 @@ export const CardPost = ({ post }) => {
             <IconButton>
               <IconChat />
             </IconButton>
+
             <p>{post.comments.length}</p>
           </div>
         </div>
