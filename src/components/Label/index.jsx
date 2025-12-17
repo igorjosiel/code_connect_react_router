@@ -1,7 +1,9 @@
-import styles from './label.module.css'
+import styles from "./label.module.css";
 
 export const Label = ({ children, ...rest }) => {
-    return <label {...rest} className={styles.label}>
-        {children}
+  return (
+    <label className={styles.label} {...rest}>
+      {children}
     </label>
-}
+  );
+};
