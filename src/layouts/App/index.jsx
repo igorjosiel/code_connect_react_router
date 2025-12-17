@@ -6,7 +6,7 @@ export const AppLayout = () => {
   return (
     <div className={styles.app}>
       <Aside />
-      
+
       <div className={styles.content}>
         <Outlet />
       </div>
