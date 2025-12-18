@@ -17,14 +17,10 @@ export const BlogPost = () => {
   const post = posts.find((post) => post.slug === slug);
 
   useEffect(() => {
-    if (!post) {
-      navigate("/not-found");
-    }
+    if (!post) navigate("/not-found");
   }, [navigate, post]);
 
-  if (!post) {
-    return null;
-  }
+  if (!post) return null;
 
   return (
     <main className={styles.main}>

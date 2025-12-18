@@ -65,6 +65,7 @@ export const Login = () => {
 
       <div>
         <TextDivider text="ou entre com outras contas" />
+        
         <Providers />
       </div>
 

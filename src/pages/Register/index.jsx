@@ -71,6 +71,7 @@ export const Register = () => {
 
       <div>
         <TextDivider text="ou entre com outras contas" />
+        
         <Providers />
       </div>
 
