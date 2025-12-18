@@ -14,14 +14,17 @@ export const useAuth = () => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem("auth_user");
+
     if (storedUser) {
       try {
         setUser(JSON.parse(storedUser));
       } catch (error) {
         console.error("Erro ao carregar usuário do localStorage:", error);
+
         localStorage.removeItem("auth_user");
       }
     }
+
     setIsLoading(false);
   }, []);
 
@@ -30,18 +33,20 @@ export const useAuth = () => {
       const existingUsers = JSON.parse(
         localStorage.getItem("auth_users") || "[]"
       );
+
       const userExists = existingUsers.find((u) => u.email === email);
 
       if (userExists) {
-        throw new Error("Usuário já existe com este email");
+        throw new Error("Usuário já existe com este email.");
       }
 
       const newUser = createUser(name, email, password);
-
       existingUsers.push(newUser);
+
       localStorage.setItem("auth_users", JSON.stringify(existingUsers));
 
       setUser(newUser);
+
       localStorage.setItem("auth_user", JSON.stringify(newUser));
 
       return { success: true, user: newUser };
@@ -53,15 +58,17 @@ export const useAuth = () => {
   const login = (email, password) => {
     try {
       const users = JSON.parse(localStorage.getItem("auth_users") || "[]");
+
       const user = users.find(
         (u) => u.email === email && u.password === password
       );
 
       if (!user) {
-        throw new Error("Email ou senha incorretos");
+        throw new Error("Email ou senha incorretos.");
       }
 
       setUser(user);
+
       localStorage.setItem("auth_user", JSON.stringify(user));
 
       return { success: true, user };
@@ -72,6 +79,7 @@ export const useAuth = () => {
 
   const logout = () => {
     setUser(null);
+
     localStorage.removeItem("auth_user");
   };
 
