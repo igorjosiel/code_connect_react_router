@@ -1,11 +1,11 @@
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router";
+import ReactMarkdown from "react-markdown";
 import styles from "./blogpost.module.css";
 import { ThumbsUpButton } from "../../components/CardPost/ThumbsUpButton";
 import { Author } from "../../components/Author";
 import Typography from "../../components/Typography";
 import { CommentList } from "../../components/CommentList";
-import ReactMarkdown from "react-markdown";
-import { useNavigate, useParams } from "react-router";
-import { useEffect, useState } from "react";
 import { ModalComment } from "../../components/ModalComment";
 import http from "../../api";
 
@@ -13,6 +13,11 @@ export const BlogPost = () => {
   const { slug } = useParams();
 
   const [post, setPost] = useState(null);
+  const [comments, setComments] = useState([]);
+
+  const handleNewComment = (newComment) => {
+    setComments([newComment, ...comments]);
+  };
 
   const navigate = useNavigate();
 
@@ -21,6 +26,7 @@ export const BlogPost = () => {
       .get(`blog-posts/slug/${slug}`)
       .then((response) => {
         setPost(response.data);
+        setComments(response.data.comments);
       })
       .catch((error) => {
         if (error.status === 404) {
@@ -57,9 +63,9 @@ export const BlogPost = () => {
             </div>
 
             <div className={styles.action}>
-              <ModalComment />
+              <ModalComment onSuccess={handleNewComment} postId={post?.id} />
 
-              <p>{post.comments.length}</p>
+              <p>{comments.length}</p>
             </div>
           </div>
 
@@ -73,7 +79,7 @@ export const BlogPost = () => {
         <ReactMarkdown>{post.markdown}</ReactMarkdown>
       </div>
 
-      <CommentList comments={post.comments} />
+      <CommentList comments={comments} />
     </main>
   );
 };
