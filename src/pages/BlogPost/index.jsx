@@ -8,28 +8,23 @@ import Typography from "../../components/Typography";
 import { CommentList } from "../../components/CommentList";
 import { ModalComment } from "../../components/ModalComment";
 import http from "../../api";
+import { usePostInteractions } from "../../hooks/usePostInteractions";
+import { useAuth } from "../../hooks/useAuth";
 
 export const BlogPost = () => {
   const { slug } = useParams();
+  const {
+    likes,
+    comments,
+    handleNewComment,
+    handleDeleteComment,
+    updateComments,
+    handleLikeButton,
+    updateLikes,
+  } = usePostInteractions();
+  const { isAuthenticated } = useAuth();
 
   const [post, setPost] = useState(null);
-  const [comments, setComments] = useState([]);
-
-  const handleNewComment = (newComment) => {
-    setComments([newComment, ...comments]);
-  };
-
-  const handleDeleteComment = (commentId) => {
-    const isConfirmed = confirm("Tem certeza que deseja remover o comentário?");
-
-    if (isConfirmed) {
-      http.delete(`comments/${commentId}`).then(() => {
-        setComments((oldState) =>
-          oldState.filter((comment) => comment.id !== commentId)
-        );
-      });
-    }
-  };
 
   const navigate = useNavigate();
 
@@ -38,14 +33,15 @@ export const BlogPost = () => {
       .get(`blog-posts/slug/${slug}`)
       .then((response) => {
         setPost(response.data);
-        setComments(response.data.comments);
+        updateComments(response.data.comments);
+        updateLikes(response.data.likes);
       })
       .catch((error) => {
         if (error.status === 404) {
           navigate("/not-found");
         }
       });
-  }, [slug, navigate]);
+  }, [slug, navigate, updateComments, updateLikes]);
 
   if (!post) return null;
 
@@ -69,9 +65,13 @@ export const BlogPost = () => {
         <footer className={styles.footer}>
           <div className={styles.actions}>
             <div className={styles.action}>
-              <ThumbsUpButton loading={false} />
+              <ThumbsUpButton
+                loading={false}
+                onClick={() => handleLikeButton(post.id)}
+                disabled={!isAuthenticated}
+              />
 
-              <p>{post.likes}</p>
+              <p>{likes}</p>
             </div>
 
             <div className={styles.action}>

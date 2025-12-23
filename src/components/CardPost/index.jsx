@@ -1,27 +1,15 @@
-import { useState } from "react";
 import { Link } from "react-router";
 import { Author } from "../Author";
 import { ThumbsUpButton } from "./ThumbsUpButton";
 import { ModalComment } from "../ModalComment";
-import http from "../../api";
 import { useAuth } from "../../hooks/useAuth";
+import { usePostInteractions } from "../../hooks/usePostInteractions";
 import styles from "./cardpost.module.css";
 
 export const CardPost = ({ post }) => {
-  const [likes, setLikes] = useState(post.likes);
-  const [comments, setComments] = useState(post.comments);
-
+  const { likes, comments, handleNewComment, handleLikeButton } =
+    usePostInteractions(post);
   const { isAuthenticated } = useAuth();
-
-  const handleNewComment = (newComment) => {
-    setComments([newComment, ...comments]);
-  };
-
-  const handleLikeButton = () => {
-    http.post(`blog-posts/${post.id}/like`).then(() => {
-      setLikes((oldLikes) => oldLikes + 1);
-    });
-  };
 
   return (
     <article className={styles.card}>
@@ -43,7 +31,7 @@ export const CardPost = ({ post }) => {
           <div className={styles.action}>
             <ThumbsUpButton
               loading={false}
-              onClick={handleLikeButton}
+              onClick={() => handleLikeButton(post.id)}
               disabled={!isAuthenticated}
             />
 
