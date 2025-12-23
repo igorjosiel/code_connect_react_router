@@ -18,21 +18,9 @@ export const CardPost = ({ post }) => {
   };
 
   const handleLikeButton = () => {
-    const access_token = localStorage.getItem("access_token");
-
-    http
-      .post(
-        `blog-posts/${post.id}/like`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${access_token}`,
-          },
-        }
-      )
-      .then(() => {
-        setLikes((oldLikes) => oldLikes + 1);
-      });
+    http.post(`blog-posts/${post.id}/like`).then(() => {
+      setLikes((oldLikes) => oldLikes + 1);
+    });
   };
 
   return (
